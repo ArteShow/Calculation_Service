@@ -1,0 +1,7 @@
+2024/12/19 19:15:24 Calculation started
+2024/12/19 19:15:24 Replaced all , to . and backspace to nothing
+2024/12/19 19:15:24 Did the clean up of the expresion
+2024/12/19 19:15:24 Count all of the mathsmarksup.
+2024/12/19 19:15:24 Did the / and *
+2024/12/19 19:15:24 Did the + and -
+2024/12/19 19:15:24 End of the function CalcBasic
