@@ -64,7 +64,9 @@ func CalcBasic(expression string) (float64, error, int) {
 	for _, letter := range String {
 		if unicode.IsDigit(letter) || letter == '.' {
 			num += string(letter)
-		} else {
+		}else if unicode.IsLetter(letter){
+			return 0.0, errors.New("There is a letter"), 422
+		}else{
 			if num != "" {
 				numb, err := strconv.ParseFloat(num, 64)
 				if err != nil {

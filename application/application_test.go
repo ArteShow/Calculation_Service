@@ -1,33 +1,20 @@
 package application
 
 import (
-	"encoding/json"
 	"bytes"
-	"net/http"
 	"net/http/httptest"
 	"testing"
 )
-
-
-
 func TestCalcHandler(t *testing.T){
-	requestBody := `{"expression": "2/0"}`
-	expected := `{"error":Division by zero}%!(EXTRA int=200)`
+	requestBody := `{"expression": "2+3"}`
+	expected := `{"error":"There is a letter"}`
 	req := httptest.NewRequest("POST", "/", bytes.NewBuffer([]byte(requestBody)))
 	req.Header.Set("Content-Type", "application/json")
 
 	rr := httptest.NewRecorder()
 	CalcHandler(rr, req)
-	if status := rr.Code; status != http.StatusOK{
-		t.Errorf("Wrong Code. Want: %v, got %v", http.StatusOK, status)
+
+	if rr.Body.String() != expected {
+		t.Errorf("Wrong Anwser. Wanted %v, got %v . Code is: %v.", expected, rr.Body.String(), rr.Code)
 	}
-	var actual ErrorResponse
-	err := json.NewDecoder(rr.Body).Decode(&actual) // JSON-Body in Struct dekodieren
-	if err != nil {
-		t.Fatalf("Failed to decode response body: %v", err)
-	}
-	if actual.Error != expected{
-		t.Errorf("Wrong Anwser. Wanted %v, got %v", expected, actual.Error)
-	}
-	t.Log(actual.Error)
 }
