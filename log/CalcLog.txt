@@ -1,0 +1,42 @@
+2024/12/21 17:58:51 /////////////Check for ( and )///////////////
+2024/12/21 17:58:51 Replace all , to .
+2024/12/21 17:58:51 Check for wrong ( )
+2024/12/21 18:01:24 /////////////Check for ( and )///////////////
+2024/12/21 18:01:24 Replace all , to .
+2024/12/21 18:01:24 Check for wrong ( )
+2024/12/21 18:05:33 /////////////Check for ( and )///////////////
+2024/12/21 18:05:33 Replace all , to .
+2024/12/21 18:05:33 Check for wrong ( )
+2024/12/21 18:09:44 /////////////Check for ( and )///////////////
+2024/12/21 18:09:44 Replace all , to .
+2024/12/21 18:09:44 Check for wrong ( )
+2024/12/21 18:13:18 /////////////Check for ( and )///////////////
+2024/12/21 18:13:18 Replace all , to .
+2024/12/21 18:13:18 Check for wrong ( )
+2024/12/21 18:13:49 /////////////Check for ( and )///////////////
+2024/12/21 18:13:49 Replace all , to .
+2024/12/21 18:13:49 Check for wrong ( )
+2024/12/21 18:15:50 /////////////Check for ( and )///////////////
+2024/12/21 18:15:50 Replace all , to .
+2024/12/21 18:15:50 Check for wrong ( )
+2024/12/21 18:17:36 /////////////Check for ( and )///////////////
+2024/12/21 18:17:36 Replace all , to .
+2024/12/21 18:17:36 Check for wrong ( )
+2024/12/21 18:19:18 /////////////Check for ( and )///////////////
+2024/12/21 18:19:18 Replace all , to .
+2024/12/21 18:19:18 Check for wrong ( )
+2024/12/21 18:19:18 Calculated it right
+2024/12/21 18:19:18 End of the function Calc
+2024/12/21 18:20:07 /////////////Check for ( and )///////////////
+2024/12/21 18:20:07 Replace all , to .
+2024/12/21 18:20:07 Check for wrong ( )
+2024/12/21 18:20:07 Calculated it right
+2024/12/21 18:20:07 End of the function Calc
+2024/12/21 18:21:33 /////////////Check for ( and )///////////////
+2024/12/21 18:21:33 Replace all , to .
+2024/12/21 18:21:33 Check for wrong ( )
+2024/12/21 18:21:33 Calculated it right
+2024/12/21 18:21:33 End of the function Calc
+2024/12/21 18:22:25 /////////////Check for ( and )///////////////
+2024/12/21 18:22:25 Replace all , to .
+2024/12/21 18:22:25 Check for wrong ( )

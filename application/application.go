@@ -17,7 +17,7 @@ type SuccessfulAnwser struct{
 }
 
 type ErrorResponse struct {
-    Error error `json:"error"`
+    Error string `json:"error"`
 }
 
 func CalcHandler(w http.ResponseWriter, r *http.Request){
@@ -25,20 +25,23 @@ func CalcHandler(w http.ResponseWriter, r *http.Request){
 	defer r.Body.Close()
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil{
-		http.Error(w, err.Error(), http.StatusBadRequest)//Ficks it
+		http.Error(w, "International server error", 500)
 	}
 	result, err, status := calculate.Calc(request.Expression)
 	if err != nil{
-		NewError := new(ErrorResponse)
-		NewError.Error = err
+		NewError := ErrorResponse{
+			Error: err.Error(),
+		}
 		jsonData, err := json.Marshal(NewError)
 		if err != nil{
 			http.Error(w, "International server error", 500)
 		}
-		fmt.Fprintf(w, string(jsonData))
+		fmt.Fprint(w, jsonData)
+		fmt.Fprintln(w, jsonData)
 	}else{
-		ResultNotJson := new(SuccessfulAnwser)
-		ResultNotJson.Result = result
+		ResultNotJson := SuccessfulAnwser{
+			Result: result,
+		}
 		ResultJson, err := json.Marshal(ResultNotJson)
 		if err != nil{
 			http.Error(w, "International server error", 500)

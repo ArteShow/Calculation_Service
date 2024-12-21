@@ -1,0 +1,87 @@
+2024/12/21 17:58:51 ///////////////Calculation started/////////////
+2024/12/21 17:58:51 Replaced all , to . and backspace to nothing
+2024/12/21 17:58:51 Did the clean up of the expresion
+2024/12/21 17:58:51 Count all of the mathsmarksup.
+2024/12/21 17:58:51 [ERROR]: error divide by zero
+2024/12/21 18:01:24 ///////////////Calculation started/////////////
+2024/12/21 18:01:24 Replaced all , to . and backspace to nothing
+2024/12/21 18:01:24 Did the clean up of the expresion
+2024/12/21 18:01:24 Count all of the mathsmarksup.
+2024/12/21 18:01:24 [ERROR]: error divide by zero
+2024/12/21 18:05:33 ///////////////Calculation started/////////////
+2024/12/21 18:05:33 Replaced all , to . and backspace to nothing
+2024/12/21 18:05:33 Did the clean up of the expresion
+2024/12/21 18:05:33 Count all of the mathsmarksup.
+2024/12/21 18:05:33 [ERROR]: error divide by zero
+2024/12/21 18:09:44 ///////////////Calculation started/////////////
+2024/12/21 18:09:44 Replaced all , to . and backspace to nothing
+2024/12/21 18:09:44 Did the clean up of the expresion
+2024/12/21 18:09:44 Count all of the mathsmarksup.
+2024/12/21 18:09:44 [ERROR]: error divide by zero
+2024/12/21 18:13:18 ///////////////Calculation started/////////////
+2024/12/21 18:13:18 Replaced all , to . and backspace to nothing
+2024/12/21 18:13:18 Did the clean up of the expresion
+2024/12/21 18:13:18 Count all of the mathsmarksup.
+2024/12/21 18:13:18 [ERROR]: error divide by zero
+2024/12/21 18:13:49 ///////////////Calculation started/////////////
+2024/12/21 18:13:49 Replaced all , to . and backspace to nothing
+2024/12/21 18:13:49 Did the clean up of the expresion
+2024/12/21 18:13:49 Count all of the mathsmarksup.
+2024/12/21 18:13:49 [ERROR]: error divide by zero
+2024/12/21 18:15:50 ///////////////Calculation started/////////////
+2024/12/21 18:15:50 Replaced all , to . and backspace to nothing
+2024/12/21 18:15:50 Did the clean up of the expresion
+2024/12/21 18:15:50 Count all of the mathsmarksup.
+2024/12/21 18:15:50 [ERROR]: error divide by zero
+2024/12/21 18:17:36 ///////////////Calculation started/////////////
+2024/12/21 18:17:36 Replaced all , to . and backspace to nothing
+2024/12/21 18:17:36 Did the clean up of the expresion
+2024/12/21 18:17:36 Count all of the mathsmarksup.
+2024/12/21 18:17:36 [ERROR]: error divide by zero
+2024/12/21 18:19:18 ///////////////Calculation started/////////////
+2024/12/21 18:19:18 Replaced all , to . and backspace to nothing
+2024/12/21 18:19:18 Did the clean up of the expresion
+2024/12/21 18:19:18 Count all of the mathsmarksup.
+2024/12/21 18:19:18 Did the / and *
+2024/12/21 18:19:18 Did the + and -
+2024/12/21 18:19:18 End of the function CalcBasic
+2024/12/21 18:19:18 ///////////////Calculation started/////////////
+2024/12/21 18:19:18 Replaced all , to . and backspace to nothing
+2024/12/21 18:19:18 Did the clean up of the expresion
+2024/12/21 18:19:18 Count all of the mathsmarksup.
+2024/12/21 18:19:18 Did the / and *
+2024/12/21 18:19:18 Did the + and -
+2024/12/21 18:19:18 End of the function CalcBasic
+2024/12/21 18:20:07 ///////////////Calculation started/////////////
+2024/12/21 18:20:07 Replaced all , to . and backspace to nothing
+2024/12/21 18:20:07 Did the clean up of the expresion
+2024/12/21 18:20:07 Count all of the mathsmarksup.
+2024/12/21 18:20:07 Did the / and *
+2024/12/21 18:20:07 Did the + and -
+2024/12/21 18:20:07 End of the function CalcBasic
+2024/12/21 18:20:07 ///////////////Calculation started/////////////
+2024/12/21 18:20:07 Replaced all , to . and backspace to nothing
+2024/12/21 18:20:07 Did the clean up of the expresion
+2024/12/21 18:20:07 Count all of the mathsmarksup.
+2024/12/21 18:20:07 Did the / and *
+2024/12/21 18:20:07 Did the + and -
+2024/12/21 18:20:07 End of the function CalcBasic
+2024/12/21 18:21:33 ///////////////Calculation started/////////////
+2024/12/21 18:21:33 Replaced all , to . and backspace to nothing
+2024/12/21 18:21:33 Did the clean up of the expresion
+2024/12/21 18:21:33 Count all of the mathsmarksup.
+2024/12/21 18:21:33 Did the / and *
+2024/12/21 18:21:33 Did the + and -
+2024/12/21 18:21:33 End of the function CalcBasic
+2024/12/21 18:21:33 ///////////////Calculation started/////////////
+2024/12/21 18:21:33 Replaced all , to . and backspace to nothing
+2024/12/21 18:21:33 Did the clean up of the expresion
+2024/12/21 18:21:33 Count all of the mathsmarksup.
+2024/12/21 18:21:33 Did the / and *
+2024/12/21 18:21:33 Did the + and -
+2024/12/21 18:21:33 End of the function CalcBasic
+2024/12/21 18:22:25 ///////////////Calculation started/////////////
+2024/12/21 18:22:25 Replaced all , to . and backspace to nothing
+2024/12/21 18:22:25 Did the clean up of the expresion
+2024/12/21 18:22:25 Count all of the mathsmarksup.
+2024/12/21 18:22:25 [ERROR]: error divide by zero

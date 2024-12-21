@@ -65,7 +65,7 @@ func TestClac(t*testing.T){
 			panic(err)
 		}
 		if got != expected[i]{
-			t.Fatalf("Fail by testing Calc Basic")
+			t.Fatalf("Fail by testing Calc")
 		}
 	}
 }

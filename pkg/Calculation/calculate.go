@@ -36,7 +36,7 @@ func PostponeStringSlice(slice []string, index int) []string {
 }
 
 func CalcBasic(expression string) (float64, error, int) {
-	Logger, err, status := createLogger("./log", "CaclBasicLog.txt")
+	Logger, err, status := createLogger("../log", "CaclBasicLog.txt")
 	if err != nil{
 		Logger.Println("[ERROR]:", err)
 		return 0.0, errors.New("Internal server error"), status
@@ -147,7 +147,7 @@ func CalcBasic(expression string) (float64, error, int) {
 }
 
 func Calc(expression string) (float64, error, int) {
-	Logger, err, status := createLogger("./log", "CalcLog.txt")
+	Logger, err, status := createLogger("../log", "CalcLog.txt")
 	if err != nil{
 		Logger.Println("[ERROR]:", err)
 		return 0.0, errors.New("Internal server error"), status
