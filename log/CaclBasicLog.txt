@@ -210,3 +210,29 @@
 2024/12/21 19:29:39 ///////////////Calculation started/////////////
 2024/12/21 19:29:39 Replaced all , to . and backspace to nothing
 2024/12/21 19:29:39 Did the clean up of the expresion
+2024/12/21 19:48:45 ///////////////Calculation started/////////////
+2024/12/21 19:48:45 Replaced all , to . and backspace to nothing
+2024/12/21 19:48:45 Did the clean up of the expresion
+2024/12/21 19:48:45 Count all of the mathsmarksup.
+2024/12/21 19:48:45 Did the / and *
+2024/12/21 19:48:45 Did the + and -
+2024/12/21 19:48:45 End of the function CalcBasic
+2024/12/21 19:48:45 ///////////////Calculation started/////////////
+2024/12/21 19:48:45 Replaced all , to . and backspace to nothing
+2024/12/21 19:48:45 Did the clean up of the expresion
+2024/12/21 19:48:45 Count all of the mathsmarksup.
+2024/12/21 19:48:45 Did the / and *
+2024/12/21 19:48:45 Did the + and -
+2024/12/21 19:48:45 End of the function CalcBasic
+2024/12/21 19:48:45 ///////////////Calculation started/////////////
+2024/12/21 19:48:45 Replaced all , to . and backspace to nothing
+2024/12/21 19:48:45 Did the clean up of the expresion
+2024/12/21 19:48:45 Count all of the mathsmarksup.
+2024/12/21 19:48:45 Did the / and *
+2024/12/21 19:48:45 Did the + and -
+2024/12/21 19:48:45 End of the function CalcBasic
+2024/12/21 19:55:30 ///////////////Calculation started/////////////
+2024/12/21 19:55:30 Replaced all , to . and backspace to nothing
+2024/12/21 19:55:30 Did the clean up of the expresion
+2024/12/21 19:55:30 Count all of the mathsmarksup.
+2024/12/21 19:55:30 Did the / and *

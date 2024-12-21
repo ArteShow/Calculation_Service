@@ -117,3 +117,12 @@
 2024/12/21 19:29:39 /////////////Check for ( and )///////////////
 2024/12/21 19:29:39 Replace all , to .
 2024/12/21 19:29:39 Check for wrong ( )
+2024/12/21 19:48:45 /////////////Check for ( and )///////////////
+2024/12/21 19:48:45 Replace all , to .
+2024/12/21 19:48:45 Check for wrong ( )
+2024/12/21 19:48:45 Check for wrong ( )
+2024/12/21 19:48:45 Calculated it right
+2024/12/21 19:48:45 End of the function Calc
+2024/12/21 19:55:30 /////////////Check for ( and )///////////////
+2024/12/21 19:55:30 Replace all , to .
+2024/12/21 19:55:30 Check for wrong ( )

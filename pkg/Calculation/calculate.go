@@ -90,9 +90,8 @@ func CalcBasic(expression string) (float64, error, int) {
 		newLetter := string(letter)
 		if newLetter == "+" || newLetter == "-" || newLetter == "*" || newLetter == "/" {
 			if lastOperator == newLetter {
-				return 0.0, errors.New("Not enogh mathsmarkups"), 422
 				Logger.Println("[ERROR]: error by checking the mathmarkups")
-
+				return 0.0, errors.New("Not enogh mathsmarkups"), 422
 			}
 			lastOperator = newLetter
 			MathOperators = append(MathOperators, newLetter)

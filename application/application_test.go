@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 func TestCalcHandler(t *testing.T){
-	requestBody := `{"expression": "2+3"}`
+	requestBody := `{"expression": "-5"}`
 	expected := `{"error":"There is a letter"}`
 	req := httptest.NewRequest("POST", "/", bytes.NewBuffer([]byte(requestBody)))
 	req.Header.Set("Content-Type", "application/json")
