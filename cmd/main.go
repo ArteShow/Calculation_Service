@@ -1,15 +1,9 @@
 package main
 
 import (
-	"fmt"
-
-	calculate "github.com/ArteShow/Calculation_Service/pkg/Calculation"
+	"github.com/ArteShow/Calculation_Service/application"
 )
 
 func main(){
-	result, err := calculate.CalcBasic("3 + 2.2")
-	if err != nil{
-		panic(err)
-	}
-	fmt.Println(result)
+	application.RunServer()
 }

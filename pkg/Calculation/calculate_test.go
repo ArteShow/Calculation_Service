@@ -6,10 +6,10 @@ import (
 	"testing"
 )
 
-func test_createLogger(t *testing.T){
-	_, err := createLogger("./log", "TestLog")
+func TestCreateLogger(t *testing.T){
+	_, err, _ := createLogger("./log", "TestLog")
 	if err != nil{
-		errors.New("Soimething went wrong")
+		errors.New("Something went wrong")
 	}
 	_, err2 := os.Stat("./log")
 	if err2 != nil{
@@ -17,7 +17,7 @@ func test_createLogger(t *testing.T){
 	}
 }
 
-func test_Postpone(t* testing.T){
+func TestPostpone(t* testing.T){
 	example := make([]float64, 5)
 	for i := 1; i <= 5; i++{
 		example[i-1] = float64(i)
@@ -31,7 +31,7 @@ func test_Postpone(t* testing.T){
 	}
 }
 
-func test_PostponeStringSlice(t* testing.T){
+func TestPostponeStringSlice(t* testing.T){
 	example := []string{"He", "llo", "Worl", "d!"}
 	expected := []string{"He", "llo", "d!"}
 	got := PostponeStringSlice(example, 2)
@@ -42,11 +42,11 @@ func test_PostponeStringSlice(t* testing.T){
 	}
 }
 
-func test_ClacBasic(t*testing.T){
+func TestClacBasic(t*testing.T){
 	example := []string{"1+2", "3-2", "5*3", "15/3"}
 	expected := []float64{3, 1, 15, 5 }
 	for i := 0; i <= 3; i++{
-		got, err := CalcBasic(example[i])
+		got, err, _ := CalcBasic(example[i])
 		if err != nil{
 			panic(err)
 		}
@@ -56,11 +56,11 @@ func test_ClacBasic(t*testing.T){
 	}
 }
 
-func test_Clac(t*testing.T){
+func TestClac(t*testing.T){
 	example := []string{"(1+2)*2", "(4-3)*3", "(5*3)-4", "15/(3-2)"}
 	expected := []float64{6, 3, 11, 15}
 	for i := 0; i <= 3; i++{
-		got, err := Calc(example[i])
+		got, err, _ := Calc(example[i])
 		if err != nil{
 			panic(err)
 		}
