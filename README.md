@@ -38,4 +38,4 @@ Answer Possibilities:
     //Error (500): If you see the message "Internal server error," restart your program (close the terminal or type "exit").
 
 Contact Me:
-    //If you have a problem, contact me: soka.rtemax@gmail.com
+    //If you have a problem, contact me: sokartemax@gmail.com
