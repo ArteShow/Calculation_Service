@@ -13,7 +13,7 @@ func TestCreateLogger(t *testing.T){
 	}
 	_, err2 := os.Stat("./log")
 	if err2 != nil{
-		t.Fatalf("No logger in log")
+		t.Fatalf("Fail by testing CreateLogger")
 	}
 }
 
@@ -26,7 +26,7 @@ func TestPostpone(t* testing.T){
 	got := Postpone(example, 2)
 	for i := 0; i <= 2; i++{
 		if expected[0] != got[0]{
-			t.Fatalf("Fail in Postpone")
+			t.Fatalf("Fail by testing Postpone")
 		}
 	}
 }
@@ -37,7 +37,7 @@ func TestPostponeStringSlice(t* testing.T){
 	got := PostponeStringSlice(example, 2)
 	for i := 0; i <= 2; i++{
 		if expected[0] != got[0]{
-			t.Fatalf("Fail in Postpone")
+			t.Fatalf("Fail by testing PostponeString")
 		}
 	}
 }

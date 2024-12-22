@@ -8,6 +8,7 @@ import (
 	calculate "github.com/ArteShow/Calculation_Service/pkg/Calculation"
 )
 
+//Create some structions for possible answers
 type InputDate struct {
 	Expression string `json:"expression"`
 }
@@ -20,19 +21,22 @@ type ErrorResponse struct {
 	Error string `json:"error"`
 }
 
+//Handler for calculations
 func CalcHandler(w http.ResponseWriter, r *http.Request) {
+	//Get the expression
 	request := new(InputDate)
 	defer r.Body.Close()
 
 
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
-		http.Error(w, "International Server Error", 500)
+		http.Error(w, err.Error(), 404)
 		return
 	}
+	//Calculate the expression
 	result, err, status := calculate.Calc(request.Expression)
 	if err != nil {
-		
+		//Handel the error possibility
 		NewError := ErrorResponse{
 			Error: err.Error(),
 		}
@@ -41,6 +45,7 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(NewError)
 		return
 	}
+	//Send the right anwser back
 	ResultNotJson := SuccessfulAnswer{
 		Result: fmt.Sprintf("%f", result), 
 	}
@@ -48,7 +53,7 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(ResultNotJson)
 }
-
+//Start the web-service
 func RunServer(){
 	http.HandleFunc("/", CalcHandler)
 	http.ListenAndServe(":8082", nil)

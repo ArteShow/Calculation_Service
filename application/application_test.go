@@ -15,6 +15,6 @@ func TestCalcHandler(t *testing.T){
 	CalcHandler(rr, req)
 
 	if rr.Body.String() != expected {
-		t.Errorf("Wrong Anwser. Wanted %v, got %v . Code is: %v.", expected, rr.Body.String(), rr.Code)
+		t.Errorf("Wrong Anwser. Wanted %v, got %v . Status: %v.", expected, rr.Body.String(), rr.Code)
 	}
 }
