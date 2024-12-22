@@ -1,46 +1,41 @@
-Calculation Service
-
-About:
-This is a simple web-calculation-service. 
+Hi! This is a simple calculation service. You can use it everywhere!
 
 Features:
-    //It can do the addition, subtraktion, division and multiplikation
-    //It can check your expression for mistakes
-    //It is really fast
+    //Perform addition, subtraction, division, and multiplication.
+    //Validate your expression for mistakes.
+    //It is really fast.
 
 Preconditions:
-    //You have to install the 1.23.1 go version.
+    //You need to have Go version 1.23.1 installed.
 
-Installation
-    //First create a folder and open a terminal.
-    //Next clone the repository with: git clone https://github.com/ArteShow/Calculation_Service.git
-    //Then use this command: go mod tidy
-    //At the end check if you have any programms that can do the http requests. If no then I will recomand Postman.(It isn't a advertising)
+Installation:
+    //Create a folder and open a terminal.
+    //Clone the repository with: git clone https://github.com/ArteShow///Calculation_Service.git
+    //Run this command: go mod tidy
+    //Check if you have a program to make HTTP requests. If not, I recommend Postman (this is not an advertisement).
 
-//Befor using:
-    //Check the port. If you want to change it than open application/application.go and there scroll to the bottom. There you will sea a function and the port in it. You can change it there.
-    //Prepear the request: http://localhost:(your_port)
-    //Please use json as body formate. For example:
+Before Using:
+    //Check the port. If you want to change it, open application///application.go and scroll to the bottom. There you will see a function with the port configuration, which you can modify.
+    //Prepare the request URL: http://localhost:(your_port)
+    //Use JSON as the body format. For example:
     {
-    "expression": "(your expression)"
+        "expression": "(your expression)"
     }
 
-How to use:
-    //First open the termina lfor the second time and write this: go run cmd/main.go
-    //If it want the primory to activate the service allowe it.
+How to Use:
+    //Open the terminal again and write: go run cmd/main.go
+    //If prompted for permission to activate the service, allow it.
     //Then you can run your request and get the answer.
 
-Anwser Possibilitys:
-    //If your expression is correct than you will get this as result and code 200:
+Answer Possibilities:
     {
-    "result": "(Result of your expression)"
+        "result": "(Result of your expression)"
     }
-    //If you did a mistake for example 2/0 than you will get this with code 422:
     {
         "error": "Division by zero"
     }
-    //If you got an error and the code 404 than you should try again.
-    //If you got the code 500 and error message:"International server error" than you should restart your programm(close the terminal or "exit")
+    //Error (404): If you get this code, try again.
+    //Error (500): If you see the message "Internal server error," restart your program (close the terminal or type "exit").
 
-Contact me:
-    //If you have a problem, cantact me: sokartemax@gmail.com
+Contact Me:
+    //If you have a problem, contact me: soka.rtemax@gmail.com
