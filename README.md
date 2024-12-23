@@ -31,6 +31,7 @@ Answer Possibilities:
     {
         "result": "(Result of your expression)"
     }
+    //Result (200): If get this code then your expression is correct as the anwser.
     {
         "error": "Division by zero"
     }
