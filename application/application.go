@@ -55,6 +55,6 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 }
 //Start the web-service
 func RunServer(){
-	http.HandleFunc("/", CalcHandler)
+	http.HandleFunc("/api/v1/calculate", CalcHandler)
 	http.ListenAndServe(":8082", nil)
 }
