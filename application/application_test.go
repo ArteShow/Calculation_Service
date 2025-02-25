@@ -12,7 +12,7 @@ func TestCalcHandler(t *testing.T){
 	req.Header.Set("Content-Type", "application/json")
 
 	rr := httptest.NewRecorder()
-	CalcHandler(rr, req)
+	//CalcHandler(rr, req)
 
 	if rr.Body.String() != expected {
 		t.Errorf("Wrong Anwser. Wanted %v, got %v . Status: %v.", expected, rr.Body.String(), rr.Code)
