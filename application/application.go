@@ -2,16 +2,11 @@ package application
 
 import (
 	"bytes"
-	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	//calculate "github.com/ArteShow/Calculation_Service/pkg/Calculation"
 )
 
-type AgentAnwser struct{
-	result string `json:"result"`
-}
 
 func SendExpression(w http.ResponseWriter, r *http.Request){
 	body, err := io.ReadAll(r.Body)
@@ -37,26 +32,9 @@ func SendExpression(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "Empty", http.StatusInternalServerError)
 		return
 	}
-
 	w.Write(responseBody)
 }
 
-func FromServerToClient(w http.ResponseWriter, resp *http.Response){
-	responseBody, err := io.ReadAll(resp.Body)
-	if err != nil {
-		//---------------------------------
-		http.Error(w, "Empty", http.StatusInternalServerError)
-		return
-	}
-	Result := AgentAnwser{}
-	err = json.Unmarshal(responseBody, &Result)
-	if err != nil{
-		//----------------------------
-		http.Error(w, "Empty", http.StatusInternalServerError)
-	}
-
-	fmt.Fprintf(w, "Result: %s", Result.result)
-}
 
 //Start the web-service
 func RunServer(){
