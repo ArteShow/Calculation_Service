@@ -93,7 +93,7 @@ func GetExpressions(w http.ResponseWriter, r *http.Request){
 //Start the web-service
 func RunServer(){
 	http.HandleFunc("/api/v1/calculate", SendExpression)
-	http.HandleFunc("/api/v1/expressions", GetExpressions)
+	http.HandleFunc("/api/v1/expression", GetExpressions)
 	http.HandleFunc("/api/v1/expressions/", GetExpressionById)
 	http.ListenAndServe(":8082", nil)
 }
