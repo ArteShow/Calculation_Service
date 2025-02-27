@@ -2,10 +2,43 @@ package application
 
 import (
 	"bytes"
+	"encoding/json"
 	"io"
 	"net/http"
-	//calculate "github.com/ArteShow/Calculation_Service/pkg/Calculation"
+	"strconv"
+	"strings"
 )
+
+func GetExpressionById(w http.ResponseWriter, r *http.Request) {
+	parts := strings.Split(r.URL.Path, "/")
+	if len(parts) < 5 {
+		//-----------------------
+		http.Error(w, "Empty", http.StatusInternalServerError)
+		return
+	}
+
+	idStr := parts[4]
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		//--------------------------
+		http.Error(w, "Empty", http.StatusBadRequest)
+		return
+	}
+
+	jsonData, _ := json.Marshal(map[string]int{"id": id})
+	resp, err := http.Post("http://localhost:8080/internal/expression", "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		//-------------------------
+		http.Error(w, "Empty", http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(body)
+}
 
 
 func SendExpression(w http.ResponseWriter, r *http.Request){
@@ -18,7 +51,7 @@ func SendExpression(w http.ResponseWriter, r *http.Request){
 	defer r.Body.Close()
 
 	Data := string(body)
-	resp, err := http.Post("http://localhost:8080/internal", "application/json", bytes.NewBuffer([]byte(Data)))
+	resp, err := http.Post("http://localhost:8080/internal/task", "application/json", bytes.NewBuffer([]byte(Data)))
 	if err != nil{
 		//-----------------------------------
 		http.Error(w, "Empty", http.StatusInternalServerError)
@@ -32,12 +65,35 @@ func SendExpression(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "Empty", http.StatusInternalServerError)
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
 	w.Write(responseBody)
 }
 
+func GetExpressions(w http.ResponseWriter, r *http.Request){
+	resp, err := http.Get("http://localhost:8080/internal/expressions")
+	if err != nil{
+		//-----------------------------------
+		http.Error(w, "Empty", http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		//----------------------------------
+		http.Error(w, "Empty", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(body)
+}
 
 //Start the web-service
 func RunServer(){
 	http.HandleFunc("/api/v1/calculate", SendExpression)
-	http.ListenAndServe(":8080", nil)
+	http.HandleFunc("/api/v1/expressions", GetExpressions)
+	http.HandleFunc("/api/v1/expressions/", GetExpressionById)
+	http.ListenAndServe(":8082", nil)
 }
