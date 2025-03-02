@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -12,8 +13,7 @@ import (
 func GetExpressionById(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
 	if len(parts) < 5 {
-		//-----------------------
-		http.Error(w, "Empty", http.StatusInternalServerError)
+		http.Error(w, "Invalid URL format", http.StatusBadRequest)
 		return
 	}
 
@@ -68,6 +68,7 @@ func SendExpression(w http.ResponseWriter, r *http.Request){
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(responseBody)
+	log.Print("A")
 }
 
 func GetExpressions(w http.ResponseWriter, r *http.Request){
@@ -93,7 +94,7 @@ func GetExpressions(w http.ResponseWriter, r *http.Request){
 //Start the web-service
 func RunServer(){
 	http.HandleFunc("/api/v1/calculate", SendExpression)
-	http.HandleFunc("/api/v1/expression", GetExpressions)
+	http.HandleFunc("/api/v1/expressions", GetExpressions)
 	http.HandleFunc("/api/v1/expressions/", GetExpressionById)
 	http.ListenAndServe(":8082", nil)
 }

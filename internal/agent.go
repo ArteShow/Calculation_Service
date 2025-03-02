@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"bytes"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -69,21 +68,21 @@ func SendExpressionById(w http.ResponseWriter, r *http.Request) {
 }
 
 func SendToClientExpressions(w http.ResponseWriter, r *http.Request) {
-	jsonData, err := json.Marshal(Calculations)
+	mu.Lock()
+	jsonData, err := json.Marshal(Calculations["expression"])
+	mu.Unlock()
+
 	if err != nil {
-		http.Error(w, "Empty", http.StatusInternalServerError)
+		http.Error(w, "Failed to encode JSON: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	_, err2 := http.Post("http://localhost:8080/internalexpressions", "application/json", bytes.NewBuffer(jsonData))
-	if err2 != nil {
-		http.Error(w, "Empty", http.StatusInternalServerError)
-		return
-	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
 }
 
 func GetExpression(w http.ResponseWriter, r *http.Request) Expression {
-	response, err := http.Get("http://localhost:8080/internal")
+	response, err := http.Get("http://localhost:8080/internal/task")
 	if err != nil {
 		http.Error(w, "Empty", http.StatusInternalServerError)
 		return Expression{}
@@ -120,7 +119,6 @@ func GenerateID(w http.ResponseWriter, r *http.Request) {
 	mu.Unlock()
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(Id{Id: newID})
 
 	Calculate(expression)
@@ -133,5 +131,6 @@ func Calculate(expression Expression) {
 func RunServerAgent() {
 	http.HandleFunc("/internal/task", GenerateID)
 	http.HandleFunc("/internal/task/expression", SendExpressionById)
-	http.ListenAndServe(":8082", nil)
+	http.HandleFunc("/internal/task/expressions", SendToClientExpressions)
+	http.ListenAndServe(":8080", nil)
 }
