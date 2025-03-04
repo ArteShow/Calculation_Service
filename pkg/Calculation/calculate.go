@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"strings"
 	"unicode"
+	//"context"
+	//"time"
 )
 
 //Create Logger
@@ -39,6 +41,7 @@ func PostponeStringSlice(slice []string, index int) []string {
 
 //Calculate the expression without brackets
 func CalcBasic(expression string) (float64, error, int) {
+
 	//Setup the logger
 	Logger, err, status := createLogger("../log", "CaclBasicLog.txt")
 	if err != nil{

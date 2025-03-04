@@ -1,19 +1,30 @@
 package internal
 
 import (
+	"context"
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"sync"
+	"sync/atomic"
+	"time"
+
+	calculate "github.com/ArteShow/Calculation_Service/pkg/Calculation"
 )
 
 var (
-	id           int
-	Calculations = map[string]map[string]Expressions{
-		"expression": {},
-	}
-	mu sync.Mutex
+	id            int64
+	Calculations  = map[string]map[string]Expressions{"expression": {}}
+	GenerateIdBool bool
+	expression string
+	ExpressionByID     = map[int]string{}
+	TIME_ADDITION_MS time.Duration
+	TIME_SUBTRACTION_MS time.Duration
+	TIME_MULTIPLICATIONS_MS time.Duration
+	TIME_DIVISIONS_MS time.Duration
 )
 
 type Expression struct {
@@ -28,109 +39,177 @@ type Expressions struct {
 	ID     int     `json:"id"`
 	Status int     `json:"status"`
 	Result float64 `json:"result"`
+	Error error
 }
 
-func SendExpressionById(w http.ResponseWriter, r *http.Request) {
-	resp, err := http.Get("http://localhost:8080/internal/expression")
-	if err != nil {
-		http.Error(w, "Empty", http.StatusInternalServerError)
-		return
-	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		http.Error(w, "Empty", http.StatusInternalServerError)
-		return
-	}
-
-	var data Id
-	err = json.Unmarshal(body, &data)
-	if err != nil {
-		http.Error(w, "Empty", http.StatusInternalServerError)
-		return
-	}
-
-	idStr := strconv.Itoa(data.Id)
-
-	mu.Lock()
-	expression, exists := Calculations["expression"][idStr]
-	mu.Unlock()
-
-	if !exists {
-		http.Error(w, "Empty", http.StatusNotFound)
-		return
-	}
-
-	jsonData, _ := json.Marshal(expression)
+func SendExpressionsList(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonData)
-}
-
-func SendToClientExpressions(w http.ResponseWriter, r *http.Request) {
-	mu.Lock()
-	jsonData, err := json.Marshal(Calculations["expression"])
-	mu.Unlock()
-
+	resp, err := json.Marshal(Calculations)
 	if err != nil {
-		http.Error(w, "Failed to encode JSON: "+err.Error(), http.StatusInternalServerError)
+		log.Println("❌ Fehler beim Erstellen der Antwort:", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonData)
+	w.Write(resp)
 }
 
-func GetExpression(w http.ResponseWriter, r *http.Request) Expression {
-	response, err := http.Get("http://localhost:8080/internal/task")
-	if err != nil {
-		http.Error(w, "Empty", http.StatusInternalServerError)
-		return Expression{}
-	}
-	defer response.Body.Close()
 
-	var returning Expression
-	body, err := io.ReadAll(response.Body)
-	if err != nil {
-		http.Error(w, "Empty", http.StatusInternalServerError)
-		return Expression{}
-	}
-	err = json.Unmarshal(body, &returning)
-	if err != nil {
-		http.Error(w, "Empty", http.StatusInternalServerError)
-		return Expression{}
-	}
-	return returning
-}
 
 func GenerateID(w http.ResponseWriter, r *http.Request) {
-	expression := GetExpression(w, r)
+	if GenerateIdBool {
+		log.Println("⚠️ Anfrage ignoriert: ID-Generierung läuft bereits")
+		http.Error(w, "ID-Generierung läuft bereits", http.StatusConflict)
+		return
+	}
 
-	mu.Lock()
-	id++
-	newID := id
-	idStr := strconv.Itoa(newID)
+	GenerateIdBool = true
+	defer func() { GenerateIdBool = false }()
 
-	Calculations["expression"][idStr] = Expressions{
-		ID:     newID,
+	log.Println("🔢 Generiere neue ID...")
+
+	newID := atomic.AddInt64(&id, 1)
+	Calculations["expression"][expression] = Expressions{
+		ID:     int(newID),
 		Status: 0,
 		Result: 0,
+		Error: nil,
 	}
-	mu.Unlock()
-
+	ExpressionByID[int(newID)] = expression
+	log.Println("✅ Neue ID generiert:", newID)
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(Id{Id: newID})
-
+	json.NewEncoder(w).Encode(Id{Id: int(newID)})
 	Calculate(expression)
 }
 
-func Calculate(expression Expression) {
-	// Berechnung hinzufügen
+func SendExpressionById(w http.ResponseWriter, r *http.Request){
+	 // ID aus der URL extrahieren
+    parts := strings.Split(strings.TrimPrefix(r.URL.Path, "/internal/expression/"), "/")
+    if len(parts) == 0 || parts[0] == "" {
+        log.Println("❌ Fehler: Ungültige URL")
+        http.Error(w, "Invalid URL format", http.StatusBadRequest)
+        return
+    }
+
+    id, err := strconv.Atoi(parts[0])
+    if err != nil {
+        log.Println("❌ Fehler: ID ist keine Zahl:", parts[0])
+        http.Error(w, "Invalid ID format", http.StatusBadRequest)
+        return
+    }
+
+    // Suche die Expression basierend auf der ID
+    exprStr, found := ExpressionByID[id]
+	if !found {
+		log.Println("❌ Fehler: Expression nicht gefunden")
+		http.Error(w, "Expression not found", http.StatusNotFound)
+		return
+	}
+
+	expression, found := Calculations["expression"][exprStr]
+
+    // JSON Antwort senden
+    response, err := json.Marshal(expression)
+    if err != nil {
+        log.Println("❌ Fehler beim Erstellen der Antwort:", err)
+        http.Error(w, "Internal server error", http.StatusInternalServerError)
+        return
+    }
+	
+    w.Header().Set("Content-Type", "application/json")
+    w.Write(response)
+}
+
+func StoreExpression(w http.ResponseWriter, r *http.Request) {
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		log.Println("❌ Fehler beim Lesen der Expression:", err)
+		http.Error(w, "3", http.StatusInternalServerError)
+		return
+	}
+	defer r.Body.Close()
+
+	var expr Expression
+	err = json.Unmarshal(body, &expr)
+	if err != nil {
+		log.Println(body)
+		log.Println("❌ Fehler beim Unmarshalen:", err)
+		log.Println("📜 Erhaltene Expression:", string(body))
+		http.Error(w, "4", http.StatusBadRequest)
+		return
+	}
+
+	log.Println("✅ Expression erhalten:", expr.Expression)
+
+	w.WriteHeader(http.StatusOK)
+	expression = expr.Expression
+}
+
+
+func Calculate(expression string) {
+	log.Println("I am in the Calculate function! Juhu! 😄")
+	//////////////////////
+	TIME_ADDITION_MS = 5 * time.Millisecond
+	TIME_SUBTRACTION_MS = 1 * time.Millisecond
+	TIME_MULTIPLICATIONS_MS = 5 * time.Millisecond
+	TIME_MULTIPLICATIONS_MS = 5 * time.Millisecond
+
+	//////////////////////
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+	var statusCode int
+	var finalResult float64
+	var finalError error
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	parts := strings.Fields(expression) 
+
+	wg.Add(len(parts))
+	for _, expr := range parts {
+		go func(expr string) {
+			defer wg.Done()
+			select {
+			case <-ctx.Done():
+				log.Println("🛑 Timeout: Berechnung abgebrochen")
+				return
+			default:
+				result, err, code := calculate.Calc(expr)
+				mu.Lock()
+				if err != nil {
+					log.Println("❌ Fehler bei der Berechnung:", err)
+					finalError = err
+				} else {
+					log.Printf("✅ Berechnung: %s = %f, StatusCode: %d\n", expr, result, code)
+					finalResult += result
+					statusCode = code
+				}
+				mu.Unlock()
+			}
+		}(expr)
+	}
+
+	wg.Wait()
+
+	log.Println("✅ Alle Berechnungen abgeschlossen!")
+	mu.Lock()
+	Calculations["expression"][expression] = Expressions{
+		ID:     Calculations["expression"][expression].ID,
+		Status: statusCode,
+		Result: finalResult,
+		Error:  finalError,
+	}
+	mu.Unlock()
+
+	log.Println("Gesamtergebnis:", finalResult)
 }
 
 func RunServerAgent() {
-	http.HandleFunc("/internal/task", GenerateID)
-	http.HandleFunc("/internal/task/expression", SendExpressionById)
-	http.HandleFunc("/internal/task/expressions", SendToClientExpressions)
-	http.ListenAndServe(":8080", nil)
+	log.Println("🚀 Internal-Server gestartet auf Port 8083")
+	http.HandleFunc("/internal/task", StoreExpression)
+	http.HandleFunc("/internal/expression/", SendExpressionById)
+	http.HandleFunc("/internal/expression", GenerateID)
+	http.HandleFunc("/internal/expression/list", SendExpressionsList)  // Richtig: list-Route für Liste
+
+	log.Fatal(http.ListenAndServe(":8083", nil))
 }
+
