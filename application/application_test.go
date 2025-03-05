@@ -35,7 +35,7 @@ func TestGetExpressionById(t *testing.T) {
 func TestGetExpressionsList(t *testing.T) {
 	// Setup
 	handler := http.NewServeMux()
-	handler.HandleFunc("/api/v1/expressions", GetExpressionsList)
+	//handler.HandleFunc("/api/v1/expressions", GetExpressionsList)
 
 	// Test 1: Successfully retrieve the expressions list
 	req, err := http.NewRequest("GET", "/api/v1/expressions", nil)
