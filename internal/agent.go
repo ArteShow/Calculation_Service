@@ -46,10 +46,12 @@ func SendExpressionsList(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	resp, err := json.Marshal(Calculations)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("❌ Fehler beim Erstellen der Antwort:", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
+	w.WriteHeader(http.StatusOK)
 	w.Write(resp)
 }
 
@@ -57,6 +59,7 @@ func SendExpressionsList(w http.ResponseWriter, r *http.Request) {
 
 func GenerateID(w http.ResponseWriter, r *http.Request) {
 	if GenerateIdBool {
+		w.WriteHeader(http.StatusUnprocessableEntity)
 		log.Println("⚠️ Anfrage ignoriert: ID-Generierung läuft bereits")
 		http.Error(w, "ID-Generierung läuft bereits", http.StatusConflict)
 		return
@@ -76,6 +79,7 @@ func GenerateID(w http.ResponseWriter, r *http.Request) {
 	}
 	ExpressionByID[int(newID)] = expression
 	log.Println("✅ Neue ID generiert:", newID)
+	w.WriteHeader(http.StatusCreated)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(Id{Id: int(newID)})
 	Calculate(expression)
@@ -85,6 +89,7 @@ func SendExpressionById(w http.ResponseWriter, r *http.Request){
 	 // ID aus der URL extrahieren
     parts := strings.Split(strings.TrimPrefix(r.URL.Path, "/internal/expression/"), "/")
     if len(parts) == 0 || parts[0] == "" {
+		w.WriteHeader(http.StatusNotFound)
         log.Println("❌ Fehler: Ungültige URL")
         http.Error(w, "Invalid URL format", http.StatusBadRequest)
         return
@@ -92,6 +97,7 @@ func SendExpressionById(w http.ResponseWriter, r *http.Request){
 
     id, err := strconv.Atoi(parts[0])
     if err != nil {
+		w.WriteHeader(http.StatusNotFound)
         log.Println("❌ Fehler: ID ist keine Zahl:", parts[0])
         http.Error(w, "Invalid ID format", http.StatusBadRequest)
         return
@@ -100,6 +106,7 @@ func SendExpressionById(w http.ResponseWriter, r *http.Request){
     // Suche die Expression basierend auf der ID
     exprStr, found := ExpressionByID[id]
 	if !found {
+		w.WriteHeader(http.StatusNotFound)
 		log.Println("❌ Fehler: Expression nicht gefunden")
 		http.Error(w, "Expression not found", http.StatusNotFound)
 		return
@@ -110,6 +117,7 @@ func SendExpressionById(w http.ResponseWriter, r *http.Request){
     // JSON Antwort senden
     response, err := json.Marshal(expression)
     if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
         log.Println("❌ Fehler beim Erstellen der Antwort:", err)
         http.Error(w, "Internal server error", http.StatusInternalServerError)
         return
@@ -117,11 +125,13 @@ func SendExpressionById(w http.ResponseWriter, r *http.Request){
 	
     w.Header().Set("Content-Type", "application/json")
     w.Write(response)
+	w.WriteHeader(http.StatusOK)
 }
 
 func StoreExpression(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("❌ Fehler beim Lesen der Expression:", err)
 		http.Error(w, "3", http.StatusInternalServerError)
 		return
@@ -131,7 +141,7 @@ func StoreExpression(w http.ResponseWriter, r *http.Request) {
 	var expr Expression
 	err = json.Unmarshal(body, &expr)
 	if err != nil {
-		log.Println(body)
+		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("❌ Fehler beim Unmarshalen:", err)
 		log.Println("📜 Erhaltene Expression:", string(body))
 		http.Error(w, "4", http.StatusBadRequest)
@@ -140,7 +150,7 @@ func StoreExpression(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("✅ Expression erhalten:", expr.Expression)
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 	expression = expr.Expression
 }
 
