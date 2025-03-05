@@ -10,12 +10,12 @@ import (
 )
 
 func GetExpressionById(w http.ResponseWriter, r *http.Request){
-	log.Println("📩 Anfrage auf:", r.URL.Path)
+	log.Println("📩 Request to:", r.URL.Path)
 
 	parts := strings.Split(strings.TrimPrefix(r.URL.Path, "/api/v1/expression/"), "/")
 	if len(parts) == 0 || parts[0] == "" {
 		w.WriteHeader(http.StatusNotFound)
-		log.Println("❌ Fehler: Ungültige URL")
+		log.Println("❌ Error: Invalid URL")
 		http.Error(w, "Invalid URL format", http.StatusBadRequest)
 		return
 	}
@@ -23,7 +23,7 @@ func GetExpressionById(w http.ResponseWriter, r *http.Request){
 	id, err := strconv.Atoi(parts[0])
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
-		log.Println("❌ Fehler: ID ist keine Zahl:", parts[0])
+		log.Println("❌ Error: ID is not a number:", parts[0])
 		http.Error(w, "Empty", http.StatusBadRequest)
 		return
 	}
@@ -32,7 +32,7 @@ func GetExpressionById(w http.ResponseWriter, r *http.Request){
 	resp, err := http.Get(url)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("❌ Fehler beim Abrufen der Expression:", err)
+		log.Println("❌ Error while retrieving expression:", err)
 		http.Error(w, "Empty", http.StatusInternalServerError)
 		return
 	}
@@ -41,12 +41,12 @@ func GetExpressionById(w http.ResponseWriter, r *http.Request){
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("❌ Fehler beim Lesen der Antwort:", err)
+		log.Println("❌ Error while reading response:", err)
 		http.Error(w, "Empty", http.StatusInternalServerError)
 		return
 	}
 
-	log.Println("✅ Antwort von internal:", string(body))
+	log.Println("✅ Response from internal:", string(body))
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(body)
@@ -56,7 +56,7 @@ func GetExpressionsList(w http.ResponseWriter, r *http.Request){
 	resp, err := http.Get("http://localhost:8083/internal/expression/list")
 	if err != nil{
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("❌ Fehler beim Lesen der Antwort:", err)
+		log.Println("❌ Error while reading response:", err)
 		http.Error(w, "Empty", http.StatusInternalServerError)
 		return
 	}
@@ -65,45 +65,45 @@ func GetExpressionsList(w http.ResponseWriter, r *http.Request){
 	body, err := io.ReadAll(resp.Body)
 	if err != nil{
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("❌ Fehler beim Abrufen der Expression:", err)
+		log.Println("❌ Error while retrieving expressions:", err)
 		http.Error(w, "Empty", http.StatusInternalServerError)
 		return
 	}
 
-	log.Println("✅ Antwort von internal:", string(body))
+	log.Println("✅ Response from internal:", string(body))
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(body)
 }
 
-// Sendet eine Expression an den Internal-Server (8083) und fordert danach eine ID an
+// Sends an expression to the internal server (8083) and requests an ID afterward
 func SendExpression(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("❌ Fehler beim Lesen des Bodys:", err)
+		log.Println("❌ Error while reading the body:", err)
 		http.Error(w, "1", http.StatusInternalServerError)
 		return
 	}
 	defer r.Body.Close()
 	log.Println(body)
-	log.Println("📡 Sende Expression an internal:", string(body))
+	log.Println("📡 Sending expression to internal:", string(body))
 	_, err2 := http.Post("http://localhost:8083/internal/task", "application/json", bytes.NewBuffer(body))
 
 	if err2 != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("❌ Fehler beim Senden:", err)
+		log.Println("❌ Error while sending:", err)
 		http.Error(w, "2", http.StatusInternalServerError)
 		return
 	}
 
-	log.Println("✅ Expression gespeichert, fordere jetzt eine ID an...")
+	log.Println("✅ Expression saved, requesting an ID now...")
 
-	// Fordere eine neue ID an
+	// Request a new ID
 	idResp, err := http.Post("http://localhost:8083/internal/expression", "application/json", nil)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("❌ Fehler beim Anfordern der ID:", err)
+		log.Println("❌ Error while requesting ID:", err)
 		http.Error(w, "4", http.StatusInternalServerError)
 		return
 	}
@@ -112,29 +112,29 @@ func SendExpression(w http.ResponseWriter, r *http.Request) {
 	idBody, err := io.ReadAll(idResp.Body)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("❌ Fehler beim Lesen der ID-Antwort:", err)
+		log.Println("❌ Error while reading ID response:", err)
 		http.Error(w, "5", http.StatusInternalServerError)
 		return
 	}
 
-	// Debugging - Zeige den Inhalt der ID-Antwort an
-	log.Printf("📜 Erhaltene ID-Antwort: %s\n", string(idBody))
+	// Debugging - Show the content of the ID response
+	log.Printf("📜 Received ID response: %s\n", string(idBody))
 
 	if len(idBody) == 0 {
 		w.WriteHeader(http.StatusInternalServerError)
-		log.Println("❌ Fehler: Keine ID erhalten")
+		log.Println("❌ Error: No ID received")
 		http.Error(w, "6", http.StatusInternalServerError)
 		return
 	}
 
-	log.Println("✅ ID erhalten:", string(idBody))
+	log.Println("✅ ID received:", string(idBody))
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(idBody)
 }
 
 func RunServer() {
-	log.Println("🌍 API-Server gestartet auf Port 8082")
+	log.Println("🌍 API server started on port 8082")
 	http.HandleFunc("/api/v1/calculate", SendExpression)
 	http.HandleFunc("/api/v1/expression/", GetExpressionById)
 	http.HandleFunc("/api/v1/expressions", GetExpressionsList)

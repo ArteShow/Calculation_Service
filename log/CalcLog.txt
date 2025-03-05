@@ -1,0 +1,10 @@
+2025/03/05 18:00:26 /////////////Check for Brackets///////////////
+2025/03/05 18:00:26 /////////////Check for Brackets///////////////
+2025/03/05 18:00:26 /////////////Check for Brackets///////////////
+2025/03/05 18:00:26 Replace all , to .
+2025/03/05 18:00:26 Replace all , to .
+2025/03/05 18:00:26 Replace all , to .
+2025/03/05 18:00:26 Check for wrong brackets
+2025/03/05 18:00:26 Check for wrong brackets
+2025/03/05 18:00:26 Check for wrong brackets
+2025/03/05 18:00:26 Calculate all expression step by step

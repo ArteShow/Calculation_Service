@@ -1,0 +1,20 @@
+2025/03/05 18:00:26 ///////////////Calculation started/////////////
+2025/03/05 18:00:26 ///////////////Calculation started/////////////
+2025/03/05 18:00:26 ///////////////Calculation started/////////////
+2025/03/05 18:00:26 Delet all Spaces and replaced all , to .
+2025/03/05 18:00:26 Delet all Spaces and replaced all , to .
+2025/03/05 18:00:26 Delet all Spaces and replaced all , to .
+2025/03/05 18:00:26 Did the clean up of the expresion
+2025/03/05 18:00:26 Did the clean up of the expresion
+2025/03/05 18:00:26 Did the clean up of the expresion
+2025/03/05 18:00:26 Count all of the mathematical symbols.
+2025/03/05 18:00:26 Count all of the mathematical symbols.
+2025/03/05 18:00:26 Count all of the mathematical symbols.
+2025/03/05 18:00:26 Did the division and multiplikation
+2025/03/05 18:00:26 Did the division and multiplikation
+2025/03/05 18:00:26 Did the division and multiplikation
+2025/03/05 18:00:26 Did the addition and subtrakition
+2025/03/05 18:00:26 End of the function CalcBasic
+2025/03/05 18:00:26 Did the addition and subtrakition
+2025/03/05 18:00:26 End of the function CalcBasic
+2025/03/05 18:00:26 ///////////////Calculation started/////////////

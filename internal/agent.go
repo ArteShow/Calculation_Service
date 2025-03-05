@@ -157,13 +157,29 @@ func StoreExpression(w http.ResponseWriter, r *http.Request) {
 
 func Calculate(expression string) {
 	log.Println("I am in the Calculate function! Juhu! 😄")
-	//////////////////////
+
+	// Überprüfe, ob der Ausdruck leer ist
+	if expression == "" {
+		log.Println("❌ Fehler: Der Ausdruck ist leer!")
+		return
+	}
+
+	// Zerlege den Ausdruck in Teile
+	parts := strings.Fields(expression)
+
+	// Falls keine Teile vorhanden sind, abbrechen
+	if len(parts) == 0 {
+		log.Println("❌ Fehler: Keine gültigen Teile im Ausdruck!")
+		return
+	}
+
+	// Definiere die Zeitdauern (falls benötigt)
 	TIME_ADDITION_MS = 5 * time.Millisecond
 	TIME_SUBTRACTION_MS = 1 * time.Millisecond
 	TIME_MULTIPLICATIONS_MS = 5 * time.Millisecond
-	TIME_MULTIPLICATIONS_MS = 5 * time.Millisecond
+	TIME_DIVISIONS_MS = 5 * time.Millisecond
 
-	//////////////////////
+	// Berechnungslogik
 	var wg sync.WaitGroup
 	var mu sync.Mutex
 	var statusCode int
@@ -171,8 +187,6 @@ func Calculate(expression string) {
 	var finalError error
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	parts := strings.Fields(expression) 
 
 	wg.Add(len(parts))
 	for _, expr := range parts {
@@ -211,7 +225,9 @@ func Calculate(expression string) {
 	mu.Unlock()
 
 	log.Println("Gesamtergebnis:", finalResult)
+	expression = ""
 }
+
 
 func RunServerAgent() {
 	log.Println("🚀 Internal-Server gestartet auf Port 8083")
@@ -222,4 +238,3 @@ func RunServerAgent() {
 
 	log.Fatal(http.ListenAndServe(":8083", nil))
 }
-

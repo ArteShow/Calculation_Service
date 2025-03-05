@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Anfrage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            text-align: center;
+            width: 400px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Berechnung starten</h1>
+        <input type="text" id="expression" placeholder="Gib deine Expression ein" />
+        <button onclick="sendExpression()">Berechnen</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        async function sendExpression() {
+            const expression = document.getElementById('expression').value;
+
+            if (expression === '') {
+                alert('Bitte eine Expression eingeben');
+                return;
+            }
+
+            const jsonData = JSON.stringify({ "expression": expression });
+
+            try {
+                const response = await fetch('http://localhost:8082/api/v1/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: jsonData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('result').innerHTML = `ID: ${data.id}`;
+                } else {
+                    document.getElementById('result').innerHTML = 'Fehler beim Berechnen der Expression';
+                }
+            } catch (error) {
+                console.error('Fehler:', error);
+                document.getElementById('result').innerHTML = 'Fehler beim Senden der Anfrage';
+            }
+        }
+    </script>
+</body>
+
+</html>
